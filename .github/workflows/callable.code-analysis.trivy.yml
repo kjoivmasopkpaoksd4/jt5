@@ -17,14 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
           java-version: '17'
           cache: 'gradle'
-      - uses: gradle/wrapper-validation-action@v1
+      - uses: gradle/wrapper-validation-action@v2
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.8.0
+        uses: gradle/gradle-build-action@v3.1.0
 
       - name: Generate gradle.lockfile for trivy scan
         run: gradle dependencies --write-locks
@@ -38,6 +38,6 @@ jobs:
           output: 'trivy-results.sarif'
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
